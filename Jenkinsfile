@@ -23,7 +23,7 @@ pipeline {
                     archiveArtifacts artifacts: '**/target/*.war'
                 }
             }
-        }stage('Deploy to staging'){
+        }stage('Deploy'){
             parallel{
                 stage('Deploy to staging'){
                     steps{
