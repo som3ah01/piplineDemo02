@@ -1,8 +1,8 @@
 pipeline {
     agent any
     parameters{
-        string(name: 'tomcat-aws',defaultValue: '35.173.195.74',description: 'AWS Server')
-        string(name: 'tomcat-pem',defaultValue: '/home/som3ah01/DEV/workspaces/jankens/DevOpsDemo/piplineDemo02/tomcat-demo.pem',description: 'AWS pem Server')
+        string(name: 'tomcat_aws',defaultValue: '35.173.195.74',description: 'AWS Server')
+        string(name: 'tomcat_pem',defaultValue: '/home/som3ah01/DEV/workspaces/jankens/DevOpsDemo/piplineDemo02/tomcat-demo.pem',description: 'AWS pem Server')
         
     }
     triggers{
@@ -32,7 +32,7 @@ pipeline {
         }
         stage('Deploy to AWS'){
             steps{
-                sh "scp -i /home/som3ah01/DEV/workspaces/jankens/DevOpsDemo/piplineDemo02/tomcat-demo.pem **/target/*.war ec2-user@${params.tomcat-aws}:/var/lib/tomcat/webapps"
+                sh "scp -i /home/som3ah01/DEV/workspaces/jankens/DevOpsDemo/piplineDemo02/tomcat-demo.pem **/target/*.war ec2-user@${params.tomcat_aws}:/var/lib/tomcat/webapps"
 
             }
         }
