@@ -1,15 +1,25 @@
 pipeline {
     agent any
+    
+    tools {
+        maven 'localMaven'
+    }
+
     stages{
         stage('Build'){
             steps {
-                 echo 'Now Building...'
+                sh 'mvn clean package'
             }
-            
+            post {
+                success {
+                    echo 'Now Archiving...'
+                    archiveArtifacts artifacts: '**/target/*.war'
+                }
+            }
         }
         stage('Deploy to staging'){
             steps{
-                echo 'Now Deploying...'
+                build job: 'deploy-to-stage'
 
             }
         }
@@ -18,7 +28,16 @@ pipeline {
                 timeout(time:5 , unit:'DAYS'){
                     input message: 'Aprove To Production Deployment?'
                 }
-                echo 'Now Production...'
+                build job:'deploy-to-prod'
+            }
+            post{
+                success{
+                    echo 'Done successfully deploy-to-prod'
+                }
+                failure{
+                    echo 'fail to deploy-to-prod'
+                }
+
             }
         }
     }
