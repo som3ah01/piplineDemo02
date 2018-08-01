@@ -24,8 +24,7 @@ pipeline {
                 }
             }
         }
-        stage('Deploy'){
-            parallel{
+       
                 stage('Deploy to staging'){
                     steps{
                         build job: 'deploy-to-stage'
@@ -36,8 +35,7 @@ pipeline {
                      sh "scp -i /home/som3ah01/DEV/workspaces/jankens/DevOpsDemo/piplineDemo02/tomcat-demo.pem **/target/*.war ec2-user@${params.tomcat_aws}:/var/lib/tomcat/webapps"
                     }
                 }
-            }
-        }
+                
         stage('Deploy to production'){
             steps{
                 timeout(time:5 , unit:'DAYS'){
